@@ -5,7 +5,8 @@ import { useCollectionData } from 'react-firebase-hooks/firestore';
 import 'firebase/auth';
 import 'firebase/firestore';
 import './App.css';
-
+import Logo from './images/chat.svg';
+import Send from './images/send.svg';
 firebase.initializeApp({
   apiKey: "AIzaSyBEf_uqw3Mb-usvZuVu_BxsUACjNmP3_Po",
   authDomain: "fir-chat-83dcc.firebaseapp.com",
@@ -24,11 +25,7 @@ function App() {
   const [user] = useAuthState(auth);
 
   return (
-    <div className="App">
-      <header>
-        <h1>Sofka chat</h1>
-        <SignOut />
-      </header>
+    <div className="contenedor-principal">
       <section>
         {user ? <ChatRoom /> : <SignIn />}
       </section>
@@ -44,13 +41,13 @@ function ChatRoom() {
 
   const [formValue, setFormValue] = useState("");
 
-  useEffect(()=>{
-    dummy.current.scrollIntoView({behavior: 'smooth'});
+  useEffect(() => {
+    dummy.current.scrollIntoView({ behavior: 'smooth' });
   });
 
   const sendMessage = async (e) => {
     e.preventDefault();
-    const { uid, photoURL , displayName } = auth.currentUser;
+    const { uid, photoURL, displayName } = auth.currentUser;
     await messageRef.add({
       text: formValue,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -63,34 +60,49 @@ function ChatRoom() {
 
   }
   return (
-    <main>
-      <div>
-        {messages && messages.map(msn => <ChatMessage key={msn.id} message={msn} />)}
-      </div>
+    <div>
+      <main>
+        <header className="logout">
+          <h1>Sofka chat</h1>
+          <SignOut />
+        </header>
+        <br />
+        <hr />
+        <br />
+        <div>
+          {messages && messages.map(msn => <ChatMessage key={msn.id} message={msn} />)}
+        </div>
+        <br />
+        <div className="form">
+          <form onSubmit={sendMessage}>
+            <input value={formValue} onChange={e => {
+              setFormValue(e.target.value);
+            }} placeholder="Escribe tu mensaje" />
+            <button className="btn-submit" type="submit" disabled={!formValue}>
+              <img src={Send} alt=""/>
+            </button>
+          </form>
+        </div>
 
-      <div>
-        <form onSubmit={sendMessage}>
-          <input value={formValue} onChange={e=>{
-            setFormValue(e.target.value);
-          }} placeholder="Escribe tu mensaje"/>
-          <button type="submit" disabled={!formValue}>Send</button>
-        </form>
-      </div>
+        <span ref={dummy}></span>
+      </main>
+    </div>
 
-      <span ref={dummy}></span>
-    </main>
   );
 }
 
 function ChatMessage({ message }) {
   let { text, uid, photoURL, displayName } = message;
 
-  const messageOrderClass = uid = auth.currentUser.uid ? 'Send' : 'Recived';
+  const messageOrderClass = uid === auth.currentUser.uid ? 'send' : 'recived';
+  console.log(messageOrderClass);
   return (
-    <div children={`message ${messageOrderClass}`}>
+    <div className={`message ${messageOrderClass}`}>
       <img src={photoURL} alt='photo' />
-      <small>{displayName}</small>
-      <p>{text}</p>
+      <div>
+        <small>{displayName}: </small>
+        <p>{text}</p>
+      </div>
     </div>
   );
 }
@@ -102,17 +114,29 @@ function SignIn() {
   }
 
   return (
-    <button onClick={signInWithGoogle}> Sign In With Google</button>
+    <div className="container-signin">
+      <header>
+        <h1>Sofka chat</h1>
+        <img src={Logo} alt="logo" />
+        <SignOut />
+      </header>
+      <br />
+      <br />
+      <div className="container-text-signin">
+        <p className="text-signin">Ingresa a Sofka Chat con tu cuenta de Google</p>
+        <button className="bnt-sign-in" onClick={signInWithGoogle}>Ingresar</button>
+      </div>
+    </div>
   );
 }
 
 function SignOut() {
   return auth.currentUser && (
-    <button onClick={
+    <button className="btn-sign-out" onClick={
       () => {
         auth.signOut();
       }
-    }>Sign Out</button>
+    }>Salir</button>
   );
 }
 

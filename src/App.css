@@ -1,38 +1,184 @@
-.App {
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: #fff;
+}
+
+html{
+  background-color: rgba(0, 0, 0, 0.445);
+  background-image: url('./images/back.jpg');
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+header{
+  display: flex;
+  justify-content: space-between;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+header h1{
+  font-size: 50px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+header img{
+  width: 60px;
+  height: 60px;
 }
 
-.App-header {
-  background-color: #282c34;
+.btn-sign-out{
+  padding: 7px;
+  margin: 10px;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
+  background-color: rgb(247, 0, 0);
+}
+
+.btn-sign-out:hover{
+  background-color: rgb(202, 0, 0);
+  cursor: pointer;
+}
+
+.bnt-sign-in{
+  padding: 10px;
+  margin: 10px;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 20px;
+  background-color: rgb(85, 85, 85);
+}
+
+.bnt-sign-in:hover{
+  background-color: rgb(58, 58, 58);
+  cursor: pointer;
+}
+
+.container-signin{
+  box-shadow: 10px 10px #fff;
+  background-color: rgba(0, 0, 0, 0.541);
+  margin: 120px auto 40px auto;
+  padding: 40px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 28px;
+  height: 400px;
+  width: 60%;
+}
+
+.container-signin .text-signin{
+  padding-bottom: 20px;
+  font-size: 20px;
+}
+
+.container-text-signin{
+  margin-top: 30px;
+  background-color: rgba(0, 0, 0, 0.644);
+  border-radius: 10px;
+  width: 60%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+main{
+  width: 70%;
+  height: auto;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  margin: auto;
+  background-color: rgba(0, 0, 0, 0.541);
+  padding: 40px;
+}
+
+input{
+  padding: 20px;
+  width: 90%;
+  height: 40px;
+  color: black;
+  font-size: 20px;
+  border: none;
+  border-bottom-left-radius: 6px;
+  border-top-left-radius: 6px;
+}
+
+form{
+  width: 100%;
+}
+
+.form{
+  width: 100%;
+}
+
+.btn-submit{
+  position: absolute;
+  height: 40px;
+  width: 4%;
+  padding: 2px;
+  border: none;
+  border-bottom-right-radius: 6px;
+  border-top-right-radius: 6px;
+  background-color: rgb(255, 255, 255);
+}
+
+.btn-submit img{
+  width: 35px;
+  height: 35px;
+}
+
+.btn-submit:hover{
+  background-color: rgb(158, 158, 158);
+  cursor: pointer;
+}
+
+.send{
+  flex-direction: row-reverse;
+  align-self: flex-end;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  display: flex;
 }
 
-.App-link {
-  color: #61dafb;
+.send img{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.send p, small{
+  padding: 0 10px;
+}
+
+.send div{
+  margin: 10px 5px;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: rgb(122, 122, 122);
+  max-width: 400px;
+}
+
+.recived{
+  align-items: center;
+  max-width: 300px;
+  display: flex;
+}
+
+.recived img{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.recived p, small{
+  padding: 0 10px;
+}
+
+.recived div{
+  margin: 10px 5px;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: rgb(0, 0, 0);
 }
