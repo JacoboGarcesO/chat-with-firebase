@@ -32,15 +32,18 @@ function App() {
 }
 
 function ChatRoom() {
-
+  const dunny = useRef();
   const messageRef = firestore.collection('messages');
   const query = messageRef.orderBy('createdAt').limitToLast(30);
   const [messages] = useCollectionData(query, { idField: 'id' });
   const [formValue, setFormValue] = useState('');
 
+  useEffect(()=>{
+    dunny.current.scrollIntoView({behavior: 'smooth'});
+  });
   const sendMessage = async e => {
     e.preventDefault();
-    const { id, photoUrl } = auth.currentUser;
+    const { id, photoUrl , displayName } = auth.currentUser;
     await messageRef.add({
       text: formValue,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
@@ -51,6 +54,12 @@ function ChatRoom() {
   return (
     <main>
       <div>
+        {messages && messages.map(msn => {
+          <ChatMessage key={msn.id} message={msn} />
+        })}
+        
+      </div>
+      <div>
         <form onSubmit={sendMessage}>
           <input value={formValue} onChange={e=>{
             setFormValue(e.target.value);
@@ -58,22 +67,19 @@ function ChatRoom() {
           <button type="submit" disabled={!formValue}>Send</button>
         </form>
       </div>
-      <div>
-        {messages && messages.map(msn => {
-          <ChatMessage key={msn.id} message={msn} />
-        })}
-      </div>
+      <span ref={dunny}></span>
     </main>
   );
 }
 
 function ChatMessage({ message }) {
-  const { text, id, photoUrl } = message;
+  const { text, id, photoUrl, displayName } = message;
 
   const messageOrderClass = id = auth.currentUser.uid ? 'Send' : 'Recived';
   return (
     <div children={'message' + messageOrderClass}>
       <img src={photoUrl} alt='avatar' />
+      <small>{displayName}</small>
       <p>{text}</p>
     </div>
   );
