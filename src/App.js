@@ -7,6 +7,7 @@ import 'firebase/firestore';
 import './App.css';
 import Logo from './images/chat.svg';
 import Send from './images/send.svg';
+
 firebase.initializeApp({
   apiKey: "AIzaSyBEf_uqw3Mb-usvZuVu_BxsUACjNmP3_Po",
   authDomain: "fir-chat-83dcc.firebaseapp.com",
@@ -92,10 +93,10 @@ function ChatRoom() {
 }
 
 function ChatMessage({ message }) {
-  let { text, uid, photoURL, displayName } = message;
+  let { text, uid, photoURL, displayName, createdAt } = message;
+  console.log(createdAt);
 
   const messageOrderClass = uid === auth.currentUser.uid ? 'send' : 'recived';
-  console.log(messageOrderClass);
   return (
     <div className={`message ${messageOrderClass}`}>
       <img src={photoURL} alt='photo' />
@@ -107,7 +108,7 @@ function ChatMessage({ message }) {
   );
 }
 
-function SignIn() {
+export function SignIn() {
   const signInWithGoogle = () => {
     const provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider);
@@ -124,7 +125,7 @@ function SignIn() {
       <br />
       <div className="container-text-signin">
         <p className="text-signin">Ingresa a Sofka Chat con tu cuenta de Google</p>
-        <button className="bnt-sign-in" onClick={signInWithGoogle}>Ingresar</button>
+        <button className="bnt-sign-in" data-testid={"btn-signin"} onClick={signInWithGoogle}>Ingresar</button>
       </div>
     </div>
   );
