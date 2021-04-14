@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import firebase from 'firebase/app';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
+import useAuth from './hooks/useAuth';
 import 'firebase/auth';
 import 'firebase/firestore';
 import './App.css';
@@ -80,7 +81,7 @@ function ChatRoom() {
               setFormValue(e.target.value);
             }} placeholder="Escribe tu mensaje" />
             <button className="btn-submit" type="submit" disabled={!formValue}>
-              <img src={Send} alt=""/>
+              <img src={Send} alt="" />
             </button>
           </form>
         </div>
@@ -108,12 +109,10 @@ function ChatMessage({ message }) {
   );
 }
 
-export function SignIn() {
-  const signInWithGoogle = () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider);
-  }
 
+export function SignIn() {
+  console.log(useAuth());
+  const { signIn } = useAuth();
   return (
     <div className="container-signin">
       <header>
@@ -125,7 +124,7 @@ export function SignIn() {
       <br />
       <div className="container-text-signin">
         <p className="text-signin">Ingresa a Sofka Chat con tu cuenta de Google</p>
-        <button className="bnt-sign-in" data-testid={"btn-signin"} onClick={signInWithGoogle}>Ingresar</button>
+        <button className="bnt-sign-in" data-testid="btn-signin" onClick={() => signIn()}>Ingresar</button>
       </div>
     </div>
   );
