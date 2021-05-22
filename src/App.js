@@ -34,32 +34,18 @@ function App() {
   );
 }
 
+const messageRef = firestore.collection('messages');
 function ChatRoom() {
-  const messageRef = firestore.collection('messages');
   const dummy = useRef();
   const query = messageRef.orderBy('createdAt').limitToLast(30);
   const [messages] = useCollectionData(query, { idField: "id" });
-
+  console.log(messages)
   const [formValue, setFormValue] = useState("");
 
   useEffect(() => {
     dummy.current.scrollIntoView({ behavior: 'smooth' });
   });
 
-  const sendMessage = async (e) => {
-    e.preventDefault();
-    const { uid, photoURL, displayName } = auth.currentUser;
-    await messageRef.add({
-      text: formValue,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      uid,
-      displayName,
-      photoURL,
-    });
-
-    setFormValue('');
-
-  }
   return (
     <div>
       <main>
@@ -75,7 +61,7 @@ function ChatRoom() {
         </div>
         <br />
         <div className="form">
-          <form onSubmit={sendMessage}>
+          <form >
             <input value={formValue} onChange={e => {
               setFormValue(e.target.value);
             }} placeholder="Escribe tu mensaje" />
@@ -94,11 +80,13 @@ function ChatRoom() {
 
 function ChatMessage({ message }) {
   let { text, uid, photoURL, displayName, createdAt } = message;
-  console.log(createdAt);
+  console.log(message);
 
   const messageOrderClass = uid === auth.currentUser.uid ? 'send' : 'recived';
   return (
-    <div className={`message ${messageOrderClass}`}>
+    <div className={`message ${messageOrderClass}`} onClick={async ()=>{
+      await messageRef.doc("QOGSLNEkVNx8Y6bvLKVv").update({text: "UN PENE", uid:"3J9z1Tl7hNZJ5h0Eyjvyc7ZZP4m2", displayName: "Jacobo Garcés", photoURL: "https://lh3.googleusercontent.com/a-/AOh14GgjLeLoBtTqoiJ9UIiZNdG0oEhjGSxSEvR9fs7O3A=s96-c", respuestas: [{name:"penesote"}, {name:"penesito"}]})
+    }}>
       <img src={photoURL} alt='photo' />
       <div>
         <small>{displayName}: </small>
